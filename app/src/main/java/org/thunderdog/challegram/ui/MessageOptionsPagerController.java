@@ -984,7 +984,7 @@ public class MessageOptionsPagerController extends ViewPagerController<Void> imp
   }
 
   private void onSendError (View v, TdApi.Error error) {
-    context().tooltipManager().builder(v).show(tdlib, TD.toErrorString(error)).hideDelayed(3500, TimeUnit.MILLISECONDS);
+    // context().tooltipManager().builder(v).show(tdlib, TD.toErrorString(error)).hideDelayed(3500, TimeUnit.MILLISECONDS);
     UI.showError(error);
     message.cancelScheduledSetReactionAnimation();
   }
