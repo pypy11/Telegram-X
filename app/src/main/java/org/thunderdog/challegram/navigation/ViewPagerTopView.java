@@ -249,7 +249,7 @@ public class ViewPagerTopView extends FrameLayoutFix implements RtlCheckListener
     } else {
       RippleSupport.setTransparentWhiteSelector(backgroundView);
     }
-    backgroundView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    backgroundView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT, Gravity.LEFT));
     backgroundView.setOnClickListener(this);
     backgroundView.setOnLongClickListener(this);
     backgroundView.setBoundView(this);
