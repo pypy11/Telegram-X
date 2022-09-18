@@ -7421,7 +7421,7 @@ public abstract class TGMessage implements InvalidateContentProvider, TdlibDeleg
 
         final boolean isOdd = a % 2 == 1;
         final SwipeQuickAction quickReaction = new SwipeQuickAction(reactionObj.getReaction().title, reactionDrawable, () -> {
-          if (messageReactions.sendReaction(reactionString, false, handler(findCurrentView(), null, () -> {}))) {
+          if (messageReactions.sendReaction(reactionString, false, tdlib().okHandler())) {
             scheduleSetReactionAnimation(new NextReactionAnimation(reactionObj, NextReactionAnimation.TYPE_QUICK));
           }
         }, false, true);
