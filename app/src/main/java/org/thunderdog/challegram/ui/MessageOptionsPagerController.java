@@ -55,6 +55,7 @@ import org.thunderdog.challegram.theme.Theme;
 import org.thunderdog.challegram.tool.Keyboard;
 import org.thunderdog.challegram.tool.Paints;
 import org.thunderdog.challegram.tool.Screen;
+import org.thunderdog.challegram.tool.UI;
 import org.thunderdog.challegram.util.DrawableProvider;
 import org.thunderdog.challegram.util.OptionDelegate;
 import org.thunderdog.challegram.util.text.Counter;
@@ -949,7 +950,7 @@ public class MessageOptionsPagerController extends ViewPagerController<Void> imp
     int startY = positionCords[1] + v.getMeasuredHeight() / 2;
 
     final String emoji = reaction.reaction.reaction;
-    if (message.getMessageReactions().sendReaction(emoji, false, tdlib().okHandler())) {
+    if (message.getMessageReactions().sendReaction(emoji, false, handler(v, () -> {}))) {
       message.scheduleSetReactionAnimationFromBottomSheet(reaction, new Point(startX, startY));
     }
     popupLayout.hideWindow(true);
@@ -964,10 +965,30 @@ public class MessageOptionsPagerController extends ViewPagerController<Void> imp
     int startY = positionCords[1] + v.getMeasuredHeight() / 2;
 
     final String emoji = reaction.reaction.reaction;
-    message.getMessageReactions().sendReaction(emoji, true, tdlib().okHandler());
+    message.getMessageReactions().sendReaction(emoji, true, handler(v, () -> {}));
     message.scheduleSetReactionAnimationFullscreenFromBottomSheet(reaction, new Point(startX, startY));
     popupLayout.hideWindow(true);
   }
+
+  private Client.ResultHandler handler (View v, Runnable onSuccess) {
+    return object -> {
+      switch (object.getConstructor()) {
+        case TdApi.Ok.CONSTRUCTOR:
+          tdlib.ui().post(onSuccess);
+          break;
+        case TdApi.Error.CONSTRUCTOR:
+          tdlib.ui().post(() -> onSendError(v, (TdApi.Error) object));
+          break;
+      }
+    };
+  }
+
+  private void onSendError (View v, TdApi.Error error) {
+    context().tooltipManager().builder(v).show(tdlib, TD.toErrorString(error)).hideDelayed(3500, TimeUnit.MILLISECONDS);
+    UI.showError(error);
+    message.cancelScheduledSetReactionAnimation();
+  }
+
 
   private class LickView extends View {
     public LickView (Context context) {

@@ -7421,7 +7421,7 @@ public abstract class TGMessage implements InvalidateContentProvider, TdlibDeleg
 
         final boolean isOdd = a % 2 == 1;
         final SwipeQuickAction quickReaction = new SwipeQuickAction(reactionObj.getReaction().title, reactionDrawable, () -> {
-          if (messageReactions.sendReaction(reactionString, false, tdlib().okHandler())) {
+          if (messageReactions.sendReaction(reactionString, false, handler(null, null, () -> {}))) {
             scheduleSetReactionAnimation(new NextReactionAnimation(reactionObj, NextReactionAnimation.TYPE_QUICK));
           }
         }, false, true);
@@ -7940,7 +7940,11 @@ public abstract class TGMessage implements InvalidateContentProvider, TdlibDeleg
   }
 
   private void onSendError (@Nullable View v, @Nullable TGReactions.MessageReactionEntry entry, TdApi.Error error) {
-    showReactionBubbleTooltip(v, entry, TD.toErrorString(error));
+    if (v != null) {
+      showReactionBubbleTooltip(v, entry, TD.toErrorString(error));
+    } else {
+      UI.showError(error);
+    }
   }
 
   private void showReactionBubbleTooltip (View v, TGReactions.MessageReactionEntry entry, String text) {
