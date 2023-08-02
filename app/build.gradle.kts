@@ -64,7 +64,6 @@ android {
     buildConfigString("EMOJI_BUILTIN_ID", Emoji.BUILTIN_ID)
 
     buildConfigString("LANGUAGE_PACK", Telegram.LANGUAGE_PACK)
-    buildConfigString("YOUTUBE_API_KEY", properties.getProperty("youtube.api_key", ""))
 
     buildConfigString("THEME_FILE_EXTENSION", App.THEME_EXTENSION)
   }
@@ -221,7 +220,7 @@ dependencies {
   // Play In-App Updates: https://developer.android.com/reference/com/google/android/play/core/release-notes-in_app_updates
   implementation("com.google.android.play:app-update:2.1.0")
   // ExoPlayer: https://github.com/google/ExoPlayer/blob/release-v2/RELEASENOTES.md
-  implementation("com.google.android.exoplayer:exoplayer-core:2.18.7")
+  implementation("com.google.android.exoplayer:exoplayer-core:2.19.0")
   // 17.x version requires minSdk 19 or higher
   implementation("com.google.mlkit:language-id:16.1.1")
   // The Checker Framework: https://checkerframework.org/CHANGELOG.md
@@ -244,9 +243,6 @@ dependencies {
 
   // subsampling-scale-image-view: https://github.com/davemorrissey/subsampling-scale-image-view
   implementation("com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0")
-
-  // YouTube: https://developers.google.com/youtube/android/player/
-  implementation(files("thirdparty/YouTubeAndroidPlayerApi.jar"))
 
   // TODO: upgrade to "com.googlecode.mp4parser:isoparser:1.1.22" or latest
   // mp4parser: https://github.com/sannies/mp4parser/releases
